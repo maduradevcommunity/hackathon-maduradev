@@ -22,16 +22,16 @@ const faqs = [
     a: "CBT (Computer Based Test) Screening adalah tes berbasis komputer yang menjadi salah satu komponen seleksi awal. Tes ini digunakan untuk mengukur kemampuan dasar dan minat peserta di bidang teknologi.",
   },
   {
-    q: "Bolehkan ikut berkelompok?",
-    a: "Format pelaksanaan hackathon akan diinformasikan lebih lanjut menjelang tanggal acara. Biasanya peserta bisa individu maupun tim kecil. Pantau informasi terbaru di channel resmi SEMESTA.",
+    q: "Bolehkah ikut berkelompok?",
+    a: "Tidak. Format kompetisi kali ini bersifat individual (1 orang per tim) untuk menantang kemampuan Vibe Coding dan integrasi AI secara mandiri.",
   },
   {
     q: "Di kota mana saja hackathon dilaksanakan?",
-    a: "Hackathon akan dilaksanakan di beberapa kota di Indonesia. Daftar kota lengkap akan diumumkan setelah proses rekap CBT dan seleksi peserta per kota selesai pada pertengahan Agustus 2026.",
+    a: "Tahap awal hackathon dilakukan secara hybrid/regional, namun Grand Final akan diadakan secara langsung (tatap muka) di Kantor SEVIMA dengan akomodasi ditanggung penuh.",
   },
   {
-    q: "Apa saja benefit selain hadiah uang?",
-    a: "Selain hadiah uang, pemenang akan mendapatkan e-certificate resmi dari SEVIMA, opportunity letter, eksposur project ke kampus-kampus mitra, serta kesempatan networking langsung dengan C-level eksekutif SEVIMA.",
+    q: "Apa saja benefit yang didapatkan pemenang?",
+    a: "Pemenang utama akan mendapatkan Beasiswa Kuliah S1 di BINUS University, Peluang Kerja di SEVIMA, sertifikat resmi, serta kesempatan networking dengan C-level SEVIMA.",
   },
 ];
 ---
@@ -82,6 +82,20 @@ const faqs = [
     </div>
   </div>
 </section>
+
+<!-- Structured FAQ Schema for Search and Answer Engines (AEO) -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.a
+    }
+  }))
+})} />
 
 <script>
   document.querySelectorAll(".faq-toggle").forEach((btn) => {

@@ -1,0 +1,175 @@
+---
+// Rules.astro
+const ketentuan = [
+  { term: "Format", desc: "Individual (1 orang peserta per tim)" },
+  { term: "Durasi", desc: "Total 8 jam (termasuk istirahat & dokumentasi)" },
+  { term: "Teknologi", desc: "Bebas menggunakan tech stack apa pun, sangat dianjurkan menggunakan tools AI (Claude, ChatGPT, Cursor, v0)" },
+  { term: "Keperluan", desc: "Wajib membawa laptop sendiri (BYOD) & kartu identitas (KTP/KTM)" },
+  { term: "Integritas", desc: "Kode harus baru dibuat saat acara. Dilarang keras menggunakan project lama / pengerjaan bersama orang lain" }
+];
+
+const submissions = [
+  {
+    type: "Video Demo (Maks. 5 Menit)",
+    details: "Menunjukkan fitur utama dan cara kerja produk secara live."
+  },
+  {
+    type: "GitHub Repository",
+    details: "Repositori harus bersifat publik dengan histori commit sebagai bukti pengerjaan selama acara."
+  },
+  {
+    type: "Slide Deck (Maks. 10 Slide)",
+    details: "Menjelaskan masalah, solusi, teknologi yang digunakan, serta nilai jual produk."
+  }
+];
+
+const kriteria = [
+  { name: "Relevansi Tema", score: 25, desc: "Ketepatan solusi terhadap masalah yang diberikan di hari H" },
+  { name: "Fungsionalitas", score: 25, desc: "Produk harus berjalan dengan baik (bukan sekadar mockup)" },
+  { name: "Inovasi & Kreativitas", score: 20, desc: "Pendekatan unik dan penggunaan teknologi yang cerdas" },
+  { name: "UX & Desain", score: 15, desc: "Tampilan yang rapi dan alur pengguna yang intuitif" },
+  { name: "Kualitas Submission", score: 15, desc: "Kejelasan video dan slide dalam menjelaskan solusi" }
+];
+
+const bonus = [
+  { name: "Integrasi AI Agent Fungsional", score: "+10 Pts" },
+  { name: "Fitur Real-time (WebSocket/SSE)", score: "+8 Pts" },
+  { name: "Implementasi CI/CD Pipeline & Docker", score: "+8 Pts" },
+  { name: "Integrasi API Eksternal Kompleks", score: "+7 Pts" }
+];
+
+const jadwal = [
+  { time: "08.00 – 08.15", action: "Absensi & Pembukaan" },
+  { time: "08.15 – 08.30", action: "Pelepasan Tema & Spesifikasi Resmi" },
+  { time: "08.30 – 12.00", action: "Sesi Coding Fase 1 (Membangun fitur inti)" },
+  { time: "12.00 – 13.00", action: "Ishoma (Istirahat, Sholat, Makan)" },
+  { time: "13.00 – 15.00", action: "Sesi Coding Fase 2 (Edge cases & poles UX)" },
+  { time: "15.00 – 16.00", action: "Sesi Dokumentasi (Pembuatan video demo & slide)" },
+  { time: "16.00 – 16.30", action: "Batas Akhir Pengumpulan Submission" }
+];
+---
+
+<section id="rules" class="relative py-24 md:py-32 px-4 border-t border-dark-border/40 bg-dark-bg/20 tech-stripes">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header Block -->
+    <div data-reveal="up" class="text-left border-l-2 border-terminal-cyan pl-6 max-w-3xl mb-20 font-mono">
+      <p class="text-xs uppercase tracking-widest text-terminal-cyan mb-2">// SECURITY_PROTOCOL: RULES_AND_SPECS.sh</p>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-text-primary uppercase">
+        Technical Specs & <span class="text-transparent bg-clip-text bg-gradient-to-r from-terminal-cyan to-terminal-purple">Hackathon Rules</span>
+      </h2>
+      <p class="mt-4 text-sm text-text-muted max-w-xl font-sans normal-case">
+        Panduan teknis resmi pelaksanaan coding sprint 8 jam. Pahami aturan main, maksimalkan pemanfaatan AI, dan selesaikan tantangan bonus.
+      </p>
+    </div>
+
+    <!-- Main Grid System -->
+    <div class="grid lg:grid-cols-12 gap-8 font-mono text-left items-start">
+      
+      <!-- Left side: Rules, Submissions, Evaluation (8 cols) -->
+      <div class="lg:col-span-8 space-y-8">
+        <!-- 1. Ketentuan Utama (Config file mockup style) -->
+        <div class="code-card rounded p-6 bg-dark-surface/90 border border-dark-border" data-reveal="up">
+          <div class="flex items-center justify-between border-b border-dark-border pb-3 mb-5 text-xs text-text-muted">
+            <span>[ SECTION: PARTICIPANT_RULES ]</span>
+            <span class="text-terminal-cyan">SYS_CONFIG</span>
+          </div>
+          <div class="space-y-4">
+            {ketentuan.map((item) => (
+              <div class="grid sm:grid-cols-12 gap-2 text-xs border-b border-dark-border/30 pb-3 last:border-0 last:pb-0">
+                <span class="sm:col-span-3 text-terminal-cyan uppercase font-bold tracking-wider">{item.term}</span>
+                <span class="sm:col-span-9 text-text-primary font-sans leading-relaxed">{item.desc}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- 2. Submission Output & Kriteria Penilaian (Grid layout inside) -->
+        <div class="grid md:grid-cols-2 gap-8">
+          
+          <!-- Submissions Card -->
+          <div class="code-card rounded p-6 bg-dark-surface/90 border border-dark-border" data-reveal="up">
+            <div class="flex items-center justify-between border-b border-dark-border pb-3 mb-5 text-xs text-text-muted">
+              <span>[ MODULE: REQUIRED_SUBMISSIONS ]</span>
+              <span class="text-terminal-magenta">OUTPUT.pkg</span>
+            </div>
+            <div class="space-y-5">
+              {submissions.map((sub, idx) => (
+                <div class="space-y-1">
+                  <h4 class="text-xs font-bold text-terminal-magenta uppercase flex items-center gap-1.5">
+                    <span class="text-[9px] bg-terminal-magenta/10 text-terminal-magenta border border-terminal-magenta/20 px-1 rounded">0{idx+1}</span>
+                    {sub.type}
+                  </h4>
+                  <p class="text-xs text-text-muted leading-relaxed font-sans pl-7">{sub.details}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Evaluation Card -->
+          <div class="code-card rounded p-6 bg-dark-surface/90 border border-dark-border" data-reveal="up">
+            <div class="flex items-center justify-between border-b border-dark-border pb-3 mb-5 text-xs text-text-muted">
+              <span>[ ENGINE: SCORING_ALGORITHM ]</span>
+              <span class="text-terminal-yellow">EVAL.sys</span>
+            </div>
+            <div class="space-y-4">
+              {kriteria.map((k) => (
+                <div class="space-y-1.5">
+                  <div class="flex justify-between text-xs font-bold">
+                    <span class="text-text-primary">{k.name}</span>
+                    <span class="text-terminal-yellow">{k.score} PTS</span>
+                  </div>
+                  <div class="w-full bg-dark-border h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-terminal-yellow h-full rounded-full" style={`width: ${k.score}%`}></div>
+                  </div>
+                  <p class="text-[10px] text-text-muted font-sans leading-relaxed pl-1">{k.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. Challenge Points (Poin Bonus) -->
+        <div class="code-card rounded p-6 bg-dark-surface/90 border border-terminal-purple/30" style="box-shadow: 0 10px 30px -15px rgba(139, 92, 246, 0.15)" data-reveal="up">
+          <div class="flex items-center justify-between border-b border-dark-border pb-3 mb-5 text-xs text-text-muted">
+            <span>[ CHALLENGE: OPTIONAL_ADDONS ]</span>
+            <span class="text-terminal-purple font-bold">BONUS_BOOST.bin</span>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            {bonus.map((b) => (
+              <div class="flex items-center justify-between p-3 rounded bg-dark-card border border-dark-border hover:border-terminal-purple/40 transition-colors">
+                <span class="text-xs text-text-primary pr-2 leading-relaxed">{b.name}</span>
+                <span class="text-xs font-bold text-terminal-purple bg-terminal-purple/10 border border-terminal-purple/20 px-2 py-0.5 rounded whitespace-nowrap">{b.score}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right side: Jadwal Pelaksanaan (4 cols) -->
+      <div class="lg:col-span-4">
+        <div class="code-card rounded p-6 bg-dark-surface/90 border border-terminal-green/30 sticky top-24" style="box-shadow: 0 10px 30px -15px rgba(0, 255, 102, 0.1)" data-reveal="up">
+          <div class="flex items-center justify-between border-b border-dark-border pb-3 mb-5 text-xs text-text-muted">
+            <span>[ CRON: HARI_H_SCHEDULE ]</span>
+            <span class="text-terminal-green animate-pulse">RUNNING</span>
+          </div>
+          <div class="relative pl-4 border-l border-dark-border space-y-6">
+            {jadwal.map((j) => (
+              <div class="relative group">
+                {/* Visual node */}
+                <div class="absolute -left-[21px] top-1.5 w-2.5 h-2.5 rounded-full bg-dark-bg border border-terminal-green group-hover:bg-terminal-green transition-colors"></div>
+                <div class="text-xs font-bold text-terminal-green">{j.time}</div>
+                <div class="text-xs text-text-primary font-bold mt-1 leading-normal">{j.action}</div>
+              </div>
+            ))}
+          </div>
+          <div class="border-t border-dark-border/40 mt-6 pt-4 text-[10px] text-text-muted leading-relaxed font-sans uppercase">
+            * Note: Detail tema & spesifikasi khusus diumumkan pada saat sesi Pelepasan Tema.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

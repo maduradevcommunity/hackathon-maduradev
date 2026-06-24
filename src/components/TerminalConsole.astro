@@ -64,9 +64,10 @@
     <div class="flex flex-wrap gap-1.5">
       <button class="cmd-btn px-2.5 py-1 rounded bg-dark-card border border-dark-border hover:border-terminal-cyan hover:text-terminal-cyan transition-colors" data-cmd="help">help</button>
       <button class="cmd-btn px-2.5 py-1 rounded bg-dark-card border border-dark-border hover:border-terminal-green hover:text-terminal-green transition-colors" data-cmd="about">about</button>
+      <button class="cmd-btn px-2.5 py-1 rounded bg-dark-card border border-dark-border hover:border-terminal-cyan hover:text-terminal-cyan transition-colors" data-cmd="rules">rules</button>
       <button class="cmd-btn px-2.5 py-1 rounded bg-dark-card border border-dark-border hover:border-terminal-purple hover:text-terminal-purple transition-colors" data-cmd="timeline">timeline</button>
       <button class="cmd-btn px-2.5 py-1 rounded bg-dark-card border border-dark-border hover:border-terminal-yellow hover:text-terminal-yellow transition-colors" data-cmd="prizes">prizes</button>
-      <button class="cmd-btn px-2.5 py-1 rounded bg-dark-card border border-dark-border hover:border-terminal-magenta hover:text-terminal-magenta transition-colors" data-cmd="quiz">quiz</button>
+      <button class="cmd-btn px-2.5 py-1 rounded bg-dark-card border border-terminal-magenta hover:border-terminal-magenta hover:text-terminal-magenta transition-colors" data-cmd="quiz">quiz</button>
       <button class="cmd-btn px-2.5 py-1 rounded bg-dark-card border border-dark-border hover:border-text-primary hover:text-text-primary transition-colors" data-cmd="clear">clear</button>
     </div>
     <span class="text-[10px] hidden sm:inline text-terminal-green animate-pulse">● SYS_READY</span>
@@ -102,14 +103,14 @@
     answers: [] as string[]
   };
 
-  const ASCII_ART = `
-<pre class="text-terminal-cyan font-mono text-[10px] leading-tight select-none">
-  ____  _____ __  __ _____ ____ _____  _      ___  
- / ___|| ____|  \\/  | ____/ ___|_   _|/ \\    ( _ ) 
- \\___ \\|  _| | |\\/| |  _| \\___ \\ | | / _ \\   / _ \\ 
-  ___) | |___| |  | | |___ ___) || |/ ___ \\ | (_) |
- |____/|_____|_|  |_|_____|____/ |_/_/   \\_\\ \\___/ 
-</pre>`;
+  const ASCII_ART = '<pre class="text-terminal-cyan font-mono text-[9px] sm:text-[10px] leading-tight select-none whitespace-pre">\n' +
+    '   _____ ______ __  __ ______  _____ _______    /\\          ___   \n' +
+    '  / ____|  ____|  \\/  |  ____|/ ____|__   __|  /  \\        / _ \\  \n' +
+    ' | (___ | |__  | \\  / | |__  | (___    | |    / /\\ \\      | (_) | \n' +
+    '  \\___ \\|  __| | |\\/| |  __|  \\___ \\   | |   / ____ \\      > _ <  \n' +
+    '  ____) | |____| |  | | |____ ____) |  | |  / /    \\ \\    | (_) | \n' +
+    ' |_____/|______|_|  |_|______|_____/   |_| /_/      \\_\\    \\___/  \n' +
+    '</pre>';
 
   function writeLine(text: string, colorClass = "text-text-primary", delay = 0) {
     if (!terminalHistory) return;
@@ -154,6 +155,7 @@
       case "help":
         writeLine("Perintah yang tersedia:", "text-text-muted");
         writeLine("  about    - Profil SEMESTA 8 (Sevima × Madura.dev)");
+        writeLine("  rules    - Panduan teknis, submission, & bonus poin");
         writeLine("  timeline - Jadwal milestone hackathon (Git branch style)");
         writeLine("  prizes   - Informasi nominal dan benefit pemenang");
         writeLine("  quiz     - Jalankan kuis kelayakan untuk dapatkan gelar hacker!");
@@ -169,6 +171,16 @@
         writeLine("Tema: 'EdTech Evolution for Future Education'", "text-terminal-yellow");
         break;
 
+      case "rules":
+        writeLine("COMPETITION SPECS & PROTOCOLS", "text-terminal-cyan");
+        writeLine("  - format     : Individual (1 Coder per Team)", "text-text-primary");
+        writeLine("  - duration   : 8 Hours coding sprint", "text-text-primary");
+        writeLine("  - technology : Free stack, AI assistance highly encouraged (Claude, Cursor, ChatGPT, v0)", "text-text-primary");
+        writeLine("  - submission : Demo video (max 5m), GitHub Repo (public, with commits), Slide Deck", "text-text-primary");
+        writeLine("  - evaluation : Theme (25), Func (25), Innovation (20), UX (15), Sub (15)", "text-text-primary");
+        writeLine("  - challenges : AI Agent (+10), Real-time (+8), Docker (+8), Ext API (+7)", "text-terminal-yellow");
+        break;
+
       case "timeline":
         writeLine("GIT LOG BRANCH — JADWAL SELEKSI SEMESTA 8", "text-terminal-purple");
         writeLine("● [commit 6e2a1] 22 Jun 2026: Pendaftaran dibuka + CBT Screening (*main)", "text-text-primary");
@@ -181,10 +193,14 @@
 
       case "prizes":
         writeLine("LEADERBOARD PRIZES — JSON VARIABLE", "text-terminal-yellow");
-        writeLine("const prizes = {", "text-text-muted");
-        writeLine("  1st_Winner: { nominal: 'Rp 10.000.000', perks: ['E-Cert', 'Net-working', 'C-Level Intro'] },", "text-terminal-yellow");
-        writeLine("  2nd_Winner: { nominal: 'Rp 7.500.000',  perks: ['E-Cert', 'Net-working'] },", "text-terminal-blue");
-        writeLine("  3rd_Winner: { nominal: 'Rp 5.000.000',  perks: ['E-Cert', 'Net-working'] }", "text-terminal-magenta");
+        writeLine("const grandPrize = {", "text-text-muted");
+        writeLine("  reward: 'Beasiswa S1 BINUS & Kontrak Kerja SEVIMA',", "text-terminal-green");
+        writeLine("  location: 'Kantor SEVIMA HQ (Grand Final Live)',", "text-terminal-cyan");
+        writeLine("  perks: [", "text-text-muted");
+        writeLine("    'Full S1 Scholarship at BINUS University',", "text-text-primary");
+        writeLine("    'Direct Employment / Career Path at SEVIMA',", "text-text-primary");
+        writeLine("    'Fully Funded Finalist Travel & Lodging'", "text-text-primary");
+        writeLine("  ]", "text-text-muted");
         writeLine("};", "text-text-muted");
         break;
 

@@ -4,12 +4,60 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  url?: string;
+  image?: string;
 }
+const appUrl = import.meta.env.APP_URL || "https://hackathon.madura.dev";
 
 const {
-  title = "SEMESTA 8 - Sevima × MaduraDev",
-  description = "Hackathon SEMESTA 8 oleh Sevima × Madura.dev. Daftarkan dirimu dan jadi bagian dari revolusi teknologi Indonesia!",
+  title = "Hackathon SEMESTA 8 - SEVIMA x MaduraDev",
+  description = "Ikuti Hackathon SEMESTA 8 Sevima × MaduraDev. Kompetisi coding sprint individual 8 jam berhadiah Beasiswa S1 BINUS & Peluang Kerja di SEVIMA.",
+  url = appUrl,
+  image = "/og-image.jpg",
 } = Astro.props;
+
+// Generative Engine (GEO) & Answer Engine (AEO) Structured Data
+const eventSchema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Hackathon SEMESTA 8",
+  "description": description,
+  "startDate": "2026-09-05T08:00:00+07:00",
+  "endDate": "2026-10-28T17:00:00+07:00",
+  "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "Place",
+    "name": "Kantor SEVIMA HQ",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Medokan Asri Barat No.3",
+      "addressLocality": "Surabaya",
+      "addressRegion": "Jawa Timur",
+      "postalCode": "60293",
+      "addressCountry": "ID"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "MaduraDev",
+    "url": "https://madura.dev"
+  },
+  "sponsor": {
+    "@type": "Company",
+    "name": "SEVIMA",
+    "url": "https://sevima.com",
+    "sameAs": ["https://www.facebook.com/sevima/", "https://www.linkedin.com/company/sevima/"]
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "IDR",
+    "availability": "https://schema.org/InStock",
+    "validFrom": "2026-06-22",
+    "url": "https://maukuliah.id"
+  }
+};
 ---
 
 <!doctype html>
@@ -19,8 +67,32 @@ const {
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <meta name="generator" content={Astro.generator} />
+    
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#050509" />
+    <link rel="canonical" href={url} />
+
+    <!-- Robots Meta -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content="Hackathon SEMESTA 8" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={image} />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,7 +102,8 @@ const {
       rel="stylesheet"
     />
 
-    <title>{title}</title>
+    <!-- Event Schema JSON-LD (GEO & AEO optimization) -->
+    <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
   </head>
   <body>
     <slot />
